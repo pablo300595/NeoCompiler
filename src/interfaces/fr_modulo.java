@@ -3,6 +3,8 @@ package interfaces;
 
 //import clases.Archivo;
 
+import clases.AnalisisLexico;
+import clases.ExampleString;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.IOException;
@@ -37,8 +39,9 @@ public class fr_modulo extends javax.swing.JFrame {
         Data Principal
     */
     
+    AnalisisLexico analizadorLexico;
     /**/
-    public fr_modulo() {
+    public fr_modulo() {   
         final StyleContext cont = StyleContext.getDefaultStyleContext();
         final AttributeSet red = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.RED);
         final AttributeSet Black = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.BLACK);
@@ -178,6 +181,8 @@ public class fr_modulo extends javax.swing.JFrame {
         tp_Output = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ta_output = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -324,6 +329,7 @@ public class fr_modulo extends javax.swing.JFrame {
         pn_CodeEditor.setLayout(new java.awt.BorderLayout());
 
         tp_CodeEditor.setFont(new java.awt.Font("Courier 10 Pitch", 0, 13)); // NOI18N
+        tp_CodeEditor.setText("task _hello params none{\n\tObjeto _a==50$\n\tObjeto b==60$\n\t¡\n}");
         tp_CodeEditor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tp_CodeEditorKeyPressed(evt);
@@ -357,15 +363,19 @@ public class fr_modulo extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
+        ta_output.setColumns(20);
+        ta_output.setRows(5);
+        jScrollPane1.setViewportView(ta_output);
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 995, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 992, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 299, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
         );
 
         tp_Output.addTab("Output", jPanel5);
@@ -468,7 +478,9 @@ public class fr_modulo extends javax.swing.JFrame {
             aplicacion.exec("chmod +x script.sh");
             aplicacion.exec("./script.sh");}
         catch(Exception e){System.out.println(e);}*/
-        
+        analizadorLexico=new AnalisisLexico(tp_CodeEditor.getText());
+        analizadorLexico.generateTokens();
+        ta_output.setText(analizadorLexico.createErrorList());
     }//GEN-LAST:event_lb_CompileMouseClicked
 
     /**
@@ -529,14 +541,17 @@ public class fr_modulo extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lb_Compile;
     private javax.swing.JLabel lb_NewFile;
     private javax.swing.JLabel lb_NewProject;
     private javax.swing.JPanel pn_CodeEditor;
     private javax.swing.JPanel pn_Tools;
+    private javax.swing.JTextArea ta_output;
     private javax.swing.JTextPane tp_CodeEditor;
     private javax.swing.JTabbedPane tp_Output;
     private javax.swing.JTabbedPane tp_ProjectCodeFiles;
     private javax.swing.JTabbedPane tp_ProjectFiles;
     // End of variables declaration//GEN-END:variables
+
 }
